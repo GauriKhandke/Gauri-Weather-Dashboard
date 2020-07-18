@@ -1,0 +1,18 @@
+
+
+.navbar-brand{
+    font-size: 40px !important;
+    padding: 0px;
+}
+
+.yellowBtn{
+    background-color: yellow;
+}
+
+.orangeBtn{
+    background-color:orange;
+}
+
+.violetBtn{
+    background-color: violet;
+}
