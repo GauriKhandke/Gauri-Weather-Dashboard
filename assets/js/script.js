@@ -58,12 +58,14 @@ function searchCurrentWeather(city){
         var forecastQueryURL = "http://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&units=imperial&appid="+apiKey;
           
         $("#city-card").show();
-        $("#city-name").text(response.name + " ("+currentDate+") "+imageIcon);
+        
         $("#temperature").text("Temperature : "+tempF.toFixed(2)+" °F/ "+tempC.toFixed(2)+"°C"); //SHIFT OPTION 8 for degree symbol
         $("#humidity").text("Humidity : "+response.main.humidity+" %");
         $("#windspeed").text("Wind Speed : "+response.wind.speed+" MPH");
 
-        var imageIcon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon + ".png")
+        var imageIcon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon.toString() + ".png");
+
+        $("#city-name").text(response.name + " ("+currentDate+") ").append(imageIcon);
 
         getUVIndex(uvQueryURL); 
 
@@ -146,27 +148,27 @@ function showForecast(forecastQueryURL){
             var dateForecast = dateArr[1]+"/"+dateArr[2]+"/"+dateArr[0];
             var time = list[i].dt_txt.split(" ")[1];
 
-            console.log("date : "+dateForecast+" time : "+time);
+            // console.log("date : "+dateForecast+" time : "+time);
 
             if(time === "12:00:00"){
 
                 temp = list[i].main.temp;
                 humidity = list[i].main.humidity;
-                icon = list[i].weather.icon;
+                icon = list[i].weather[0].icon;
 
                 var card = $("<div>").addClass("card bg-primary text-white");
                 var cardBody = $("<div>").addClass("card-body");
                 
                 var fDate = $("<h5>").addClass("card-text").text(dateForecast);
-                
-                // var imgIcon = $("<img>").attr("src","http://openweathermap.org/img/wn/" + icon + ".png)"); 
+                // http://openweathermap.org/img/wn/10d@2x.png
+                var imgIcon = $("<img>").attr("src","http://openweathermap.org/img/wn/" + icon + ".png"); 
                 // imgIcon.addClass("card-text");
                 
                 var tempP  = $("<p>").addClass("card-text").text("Temp: "+temp+"°F");
                 
-                var humidityP = $("<p>").addClass("card-text").text("Humidity : "+humidity+" %");
+                var humidityP = $("<p>").addClass("card-text").text("Humidity : "+humidity+" % ");
 
-                cardBody.append(fDate,tempP, humidityP);
+                cardBody.append(fDate, imgIcon, tempP, humidityP);
                 card.append(cardBody);
 
                 $("#forecast").append(card);
