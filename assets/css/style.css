@@ -16,3 +16,7 @@
 .violetBtn{
     background-color: violet;
 }
+
+#historylist li:hover {
+    font-weight: bold;
+}

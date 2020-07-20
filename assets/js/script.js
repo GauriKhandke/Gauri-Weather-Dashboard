@@ -197,19 +197,30 @@ function populateSearchHistory(city){
             }         
         } 
         history.unshift(city); 
-        listitem = $("<li>").addClass("list-group-item").text(city);
+        listitem = $("<li>").addClass("list-group-item previousCity").text(city);
         $("#historylist").prepend(listitem);    
     }
     else{
             history = [city]; 
             
-            listitem = $("<li>").addClass("list-group-item").text(city);
+            listitem = $("<li>").addClass("list-group-item previousCity").text(city);
             $("#historylist").append(listitem);
 
     }
 
     localStorage.setItem("history", JSON.stringify(history));   
 }
+
+
+// onclick function on search history city to load weather of that city 
+$("#historylist").on("click", "li", function(event){
+
+    var previousCityName = $(this).text();
+    console.log("Previous city : "+ previousCityName);
+
+    searchCurrentWeather(previousCityName);
+
+});
 
 // Execute script when html is fully loaded
 $(document).ready(function(){
@@ -225,7 +236,7 @@ $(document).ready(function(){
 
         for(var i = 0 ; i < history.length; i++){
             
-            var listitem = $("<li>").addClass("list-group-item").text(history[i]);  //populate search history in local storage to html page when page loads
+            var listitem = $("<li>").addClass("list-group-item previousCity").text(history[i]);  //populate search history in local storage to html page when page loads
             $("#historylist").append(listitem);    
             
         }
