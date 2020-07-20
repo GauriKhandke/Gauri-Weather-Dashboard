@@ -1,28 +1,29 @@
+// Open Weather Map API key
 var apiKey = "ae73148c56c6f5580bee66b9c7ed810c";
 
-// create functions for following
-// - Current conditions
-
-// - 5-Day Forecast
-
-// - Search history
-
-// - UV index
-
-// "api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}"
-// var searchQueryURL = "api.openweathermap.org/data/2.5/weather?q=seattle&appid="+ apiKey;
-
+// function to search current weather of searched city 
 function searchCity(event){
    
     event.preventDefault();
+    
     var cityInput = $("#searchcity").val();
-    console.log("city : "+cityInput);
+    
+    if(cityInput === "")
+    {
+        return;
+    } 
+   
     searchCurrentWeather(cityInput);
+    
+    populateSearchHistory(cityInput);
+    
     $("#searchcity").val("");
 }
 
+// function to fetch current weather of city from current weather data api on openweathermap.
 function searchCurrentWeather(city){
 
+    // "http://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}"
     var searchQueryURL = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+ apiKey; 
 
     // Seach Current Weather
@@ -36,25 +37,23 @@ function searchCurrentWeather(city){
         // Log the queryURL
         console.log("Search Query URL : "+searchQueryURL);
 
-       // Convert the temp to fahrenheit
-       var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+        // Convert the temp to fahrenheit
+        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
         // Convert Kelvin to celsius : 0K − 273.15 = -273.1°C   
         var tempC = (response.main.temp - 273.15);
 
         var currentDate = new Date().toLocaleDateString();
-    
-       //http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37 : uv api url
+     
         var latitude = response.coord.lat;
         var longitude = response.coord.lon;
-
+        
+        //http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37 : uv api url
         var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat="+latitude+"&lon="+longitude+"&appid="+ apiKey;
 
         var cityId = response.id;
-        console.log("city id : "+cityId);
         
         // "http://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&cnt=5&units=imperial&appid="+apiKey;
-
         var forecastQueryURL = "http://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&units=imperial&appid="+apiKey;
           
         $("#city-card").show();
@@ -71,7 +70,6 @@ function searchCurrentWeather(city){
 
         showForecast(forecastQueryURL);
         
-
     });   
 
 }
@@ -91,29 +89,33 @@ function getUVIndex(uvQueryURL){
         var uvValue = uvResponse.value;
         
         var uvButton = $("<button>").attr("type","button").text(uvValue);
-        // $("#uvindex").append(uvButton);
  
         if(uvValue >= 0 && uvValue <= 3){
+            
             //low : green
             $("#uvindex").text("UV : Low, ").append(uvButton);
             uvButton.addClass("btn bg-success");
         }
         else if(uvValue >= 3 && uvValue <= 6){
+            
             //moderate : yellow
             $("#uvindex").text("UV : Moderate, ").append(uvButton);
             uvButton.addClass("btn yellowBtn");
         } 
         else if(uvValue >= 6 && uvValue <= 8){
+            
             //high : orange
             $("#uvindex").text("UV : High, ").append(uvButton);
             uvButton.addClass("btn orangeBtn");
         }
         else if(uvValue >= 8 && uvValue <= 10){
+            
             //very high : red
             $("#uvindex").text("UV : Very high, ").append(uvButton);
             uvButton.addClass("btn bg-danger");
         }
         else if(uvValue >= 10){
+            
             //extreme : violet
             $("#uvindex").text("UV : Extreme, ").append(uvButton);
             uvButton.addClass("btn violetBtn");
@@ -121,6 +123,7 @@ function getUVIndex(uvQueryURL){
     });
 }
 
+//function to show 5 days forecast 
 function showForecast(forecastQueryURL){
 
     // api.openweathermap.org/data/2.5/forecast?id={city ID}&cnt=5&units=imperial&appid={your api key}
@@ -160,9 +163,9 @@ function showForecast(forecastQueryURL){
                 var cardBody = $("<div>").addClass("card-body");
                 
                 var fDate = $("<h5>").addClass("card-text").text(dateForecast);
-                // http://openweathermap.org/img/wn/10d@2x.png
+                
+                // http://openweathermap.org/img/wn/10d.png
                 var imgIcon = $("<img>").attr("src","http://openweathermap.org/img/wn/" + icon + ".png"); 
-                // imgIcon.addClass("card-text");
                 
                 var tempP  = $("<p>").addClass("card-text").text("Temp: "+temp+"°F");
                 
@@ -172,19 +175,62 @@ function showForecast(forecastQueryURL){
                 card.append(cardBody);
 
                 $("#forecast").append(card);
-                
-
             }
        
         }
     });
 }
 
+// function to store and populate search history
+function populateSearchHistory(city){
 
+    var history = JSON.parse(localStorage.getItem("history"));  
+    var listitem;
 
+    // If exists 
+    if(history){
+
+        for(var i = 0 ; i < history.length; i++){
+            
+            if(history[i] === city){
+                return;
+            }         
+        } 
+        history.unshift(city); 
+        listitem = $("<li>").addClass("list-group-item").text(city);
+        $("#historylist").prepend(listitem);    
+    }
+    else{
+            history = [city]; 
+            
+            listitem = $("<li>").addClass("list-group-item").text(city);
+            $("#historylist").append(listitem);
+
+    }
+
+    localStorage.setItem("history", JSON.stringify(history));   
+}
+
+// Execute script when html is fully loaded
 $(document).ready(function(){
 
-    $("#city-card").hide();
-    $("#5DayForecast").hide();
     $("#searchButton").on("click",searchCity);
+
+    var history = JSON.parse(localStorage.getItem("history"));  
+    
+    // if search history exists in local storage
+    if (history) {
+        var lastSearchedCity = history[0];  //takes last searched city from localstorage
+        searchCurrentWeather(lastSearchedCity); //loads last searched city's weather
+
+        for(var i = 0 ; i < history.length; i++){
+            
+            var listitem = $("<li>").addClass("list-group-item").text(history[i]);  //populate search history in local storage to html page when page loads
+            $("#historylist").append(listitem);    
+            
+        }
+    } else {
+        $("#city-card").hide();
+        $("#5DayForecast").hide();
+    }
 });
