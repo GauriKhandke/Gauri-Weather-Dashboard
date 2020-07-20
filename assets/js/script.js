@@ -23,8 +23,8 @@ function searchCity(event){
 // function to fetch current weather of city from current weather data api on openweathermap.
 function searchCurrentWeather(city){
 
-    // "http://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}"
-    var searchQueryURL = "http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+ apiKey; 
+    // "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}"
+    var searchQueryURL = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+ apiKey; 
 
     // Seach Current Weather
     $.ajax({
@@ -48,13 +48,13 @@ function searchCurrentWeather(city){
         var latitude = response.coord.lat;
         var longitude = response.coord.lon;
         
-        //http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37 : uv api url
-        var uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?lat="+latitude+"&lon="+longitude+"&appid="+ apiKey;
+        //https://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37 : uv api url
+        var uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?lat="+latitude+"&lon="+longitude+"&appid="+ apiKey;
 
         var cityId = response.id;
         
-        // "http://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&cnt=5&units=imperial&appid="+apiKey;
-        var forecastQueryURL = "http://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&units=imperial&appid="+apiKey;
+        // "https://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&cnt=5&units=imperial&appid="+apiKey;
+        var forecastQueryURL = "https://api.openweathermap.org/data/2.5/forecast?id="+cityId+"&units=imperial&appid="+apiKey;
           
         $("#city-card").show();
         
@@ -62,7 +62,7 @@ function searchCurrentWeather(city){
         $("#humidity").text("Humidity : "+response.main.humidity+" %");
         $("#windspeed").text("Wind Speed : "+response.wind.speed+" MPH");
 
-        var imageIcon = $("<img>").attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon.toString() + ".png");
+        var imageIcon = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + response.weather[0].icon.toString() + ".png");
 
         $("#city-name").text(response.name + " ("+currentDate+") ").append(imageIcon);
 
@@ -164,8 +164,8 @@ function showForecast(forecastQueryURL){
                 
                 var fDate = $("<h5>").addClass("card-text").text(dateForecast);
                 
-                // http://openweathermap.org/img/wn/10d.png
-                var imgIcon = $("<img>").attr("src","http://openweathermap.org/img/wn/" + icon + ".png"); 
+                // https://openweathermap.org/img/wn/10d.png
+                var imgIcon = $("<img>").attr("src","https://openweathermap.org/img/wn/" + icon + ".png"); 
                 
                 var tempP  = $("<p>").addClass("card-text").text("Temp: "+temp+"°F");
                 
