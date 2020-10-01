@@ -1,5 +1,4 @@
-# Gauri-Weather-Dashboard
-UW Coding Bootcamp HW 06 : Server-Side APIs : Weather Dashboard
+# Server-Side APIs : Weather Dashboard
 
 # Goal : 
 
@@ -18,8 +17,11 @@ Developers are often tasked with retrieving data from another application's API 
 #### [OpenWeatherMap API](https://openweathermap.org/) :
 
 * Access current weather data for any location on Earth including over 200,000 cities!
+
 * Current weather is frequently updated based on global models and data from more than 40,000 weather stations. 
+
 * Data is available in JSON, XML, or HTML format.
+
 * API's used : 
   1. [Current Weather Data](https://openweathermap.org/current) : Access current weather data for any location.
   2. [5 day / 3 hour Forecast](https://openweathermap.org/forecast5) : 5 day forecast is available at any location or city.
