@@ -1,9 +1,20 @@
-# Gauri-Weather-Dashboard
-UW Coding Bootcamp HW 06 : Server-Side APIs : Weather Dashboard
+# Weather-Dashboard
+![MIT License](https://img.shields.io/badge/license-MIT-green)
 
-# Goal : 
+# Description : 
 
-Build weather dashboard using **OpenWeather API**.
+This is a weather dashboard application to get current weather conditions of searched city and 5 day forecast of that city. This application is built using *OpenWeather API* to fetch weather data of searched city.
+
+## Deployed Website : 
+[Weather Dashboard](https://gaurikhandke.github.io/Gauri-weather-dashboard/)
+
+# Table of Contents
+* [Demo](#demo)
+* [Technology](#technology)
+* [Features](#features)
+* [License](#license)
+* [Contribution](#contribution)
+* [Questions](#questions)
 
 # Motivation : 
 
@@ -13,7 +24,11 @@ Developers are often tasked with retrieving data from another application's API 
 
 ![Weather Dashboard](assets/images/WeatherDashboard.gif)
 
-# Tech/Frameworks Used : 
+# Application Preview : 
+
+![Weather Dashboard](assets/images/WeatherDashboard.png)
+
+# Technology : 
 
 #### [OpenWeatherMap API](https://openweathermap.org/) :
 
@@ -53,5 +68,13 @@ Developers are often tasked with retrieving data from another application's API 
 
 7. Application loads last searched city forecast on page load.
 
-# Deployed Website : 
-https://gaurikhandke.github.io/Gauri-weather-dashboard/
+# License
+
+This project is licensed under MIT License.
+
+# Contribution
+
+Please let me know how I can improve this project. Issues and pull requests are always welcome.
+
+# Questions :
+* If you have any questions about the repo, please submit issue [here](https://github.com/GauriKhandke/Gauri-Weather-Dashboard/issues/new) or [email](mailto:khandkegauri@gmail.com) me.
